@@ -1,0 +1,23 @@
+{
+  "name": "1d100_pro_api",
+  "version": "1.0.0",
+  "description": "1d100 api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Feals/1d100_pro_api.git"
+  },
+  "author": "axel juste",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Feals/1d100_pro_api/issues"
+  },
+  "homepage": "https://github.com/Feals/1d100_pro_api#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "sequelize": "^6.37.3"
+  }
+}
