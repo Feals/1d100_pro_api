@@ -1,8 +1,8 @@
 const { sequelize } = require("./sequelize.config.js");
-const Users = require("./models/Users")(sequelize);
-const Rpg = require("./models/Rpg")(sequelize);
-const RpgTables = require("./models/RpgTables")(sequelize);
-const Genres = require("./models/Genres")(sequelize);
+const Users = require("./models/Users.js")(sequelize);
+const Rpg = require("./models/Rpg.js")(sequelize);
+const RpgTables = require("./models/RpgTables.js")(sequelize);
+const Genres = require("./models/Genres.js")(sequelize);
 
 RpgTables.belongsTo(Users, { foreignKey: "author", onDelete: "CASCADE" });
 RpgTables.belongsTo(Rpg, { foreignKey: "rpg_id", onDelete: "CASCADE" });

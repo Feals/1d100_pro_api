@@ -22,18 +22,6 @@ CREATE TABLE IF NOT EXISTS rpg (
     updatedAt DATETIME NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS rpg_tables (
-    id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    description TEXT NOT NULL,
-    nb_player INT NOT NULL,
-    registered JSON,
-    createdAt DATETIME NOT NULL,
-    updatedAt DATETIME NOT NULL,
-    FOREIGN KEY (rpg_id) REFERENCES rpg(id) ON DELETE CASCADE,
-    FOREIGN KEY (author) REFERENCES users(id) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     firstname VARCHAR(50) NOT NULL,
@@ -51,4 +39,18 @@ CREATE TABLE IF NOT EXISTS rpg_genres (
     PRIMARY KEY (rpg_id, genre_id),
     FOREIGN KEY (rpg_id) REFERENCES rpg(id) ON DELETE CASCADE,
     FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS rpg_tables (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    nb_player INT NOT NULL,
+    registered JSON,
+    createdAt DATETIME NOT NULL,
+    updatedAt DATETIME NOT NULL,
+    rpg_id INTEGER NOT NULL,
+    author INTEGER NOT NULL,
+    FOREIGN KEY (rpg_id) REFERENCES rpg(id) ON DELETE CASCADE,
+    FOREIGN KEY (author) REFERENCES users(id) ON DELETE CASCADE
 );
