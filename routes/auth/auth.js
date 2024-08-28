@@ -6,12 +6,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const JWTStrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
+require("dotenv").config();
+
+const secretKey = process.env.SECRET_KEY;
 
 passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: "Pauline est la plus belle",
+      secretOrKey: secretKey,
     },
     function (jwtPayload, cb) {
       return cb(null, jwtPayload);
