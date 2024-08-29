@@ -11,6 +11,8 @@ const sequelize = new Sequelize(
   }
 );
 
+const Users = require("./Users")(sequelize);
+
 sequelize
   .authenticate()
   .then(() => {
@@ -20,4 +22,7 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-module.exports = sequelize;
+module.exports = {
+  sequelize,
+  Users,
+};
