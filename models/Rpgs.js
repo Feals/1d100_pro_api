@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const Rpg = sequelize.define(
-    "Rpg",
+  const Rpgs = sequelize.define(
+    "Rpgs",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -20,7 +20,11 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       images: {
-        type: DataTypes.STING,
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      rpg_genre: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
@@ -29,5 +33,5 @@ module.exports = (sequelize) => {
     }
   );
 
-  return Rpg;
+  return Rpgs;
 };

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS rpg (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    genres JSON,
+    genre_id JSON,
     images VARCHAR(255),
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS rpg_tables (
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
     nb_player INT NOT NULL,
-    registered JSON,
+    registered JSON DEFAULT [],
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL,
     rpg_id INTEGER NOT NULL,

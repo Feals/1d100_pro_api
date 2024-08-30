@@ -2,6 +2,9 @@ const express = require("express");
 const { Sequelize } = require("sequelize");
 const sequelizeConfig = require("./sequelize.config");
 const userRoutes = require("./routes/userRoutes");
+const rpgRoutes = require("./routes/rpgRoutes");
+const rpgTableRoutes = require("./routes/rpgTableRoutes");
+const genreRoutes = require("./routes/genreRoutes");
 
 const app = express();
 app.use(express.json());
@@ -25,6 +28,9 @@ async function startServer() {
 }
 
 app.use("/users", userRoutes);
+app.use("/rpgs", rpgRoutes);
+app.use("/rpgTables", rpgTableRoutes);
+app.use("/genres", genreRoutes);
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);

@@ -12,6 +12,7 @@ const sequelize = new Sequelize(
 );
 
 const Users = require("./Users")(sequelize);
+const Rpg = require("./Rpgs")(sequelize);
 
 sequelize
   .authenticate()
@@ -25,4 +26,5 @@ sequelize
 module.exports = {
   sequelize,
   Users,
+  Rpg,
 };

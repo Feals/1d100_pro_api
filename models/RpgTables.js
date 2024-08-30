@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       },
       registered: {
         type: DataTypes.JSON,
-        allowNull: false,
+        default: [],
       },
       rpg_id: {
         type: DataTypes.INTEGER,
@@ -37,6 +37,7 @@ module.exports = (sequelize) => {
       },
     },
     {
+      tableName: "rpg_tables",
       timestamps: true,
     }
   );
