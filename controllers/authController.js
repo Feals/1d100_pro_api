@@ -49,3 +49,29 @@ exports.signup = async (req, res) => {
     });
   }
 };
+
+exports.signin = async (req, res) => {
+  console.log("toto");
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    if (!user) {
+      return res.status(400).json({ message: info.message });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        lastname: user.lastname,
+        firstname: user.firstname,
+        mail: user.mail,
+        password: user.password,
+        registered: user.registered,
+      },
+      secretKey
+    );
+    console.log("token :", token);
+    return res.json({ token });
+  })(req, res);
+};

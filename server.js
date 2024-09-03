@@ -7,6 +7,47 @@ const rpgTableRoutes = require("./routes/rpgTableRoutes");
 const genreRoutes = require("./routes/genreRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
+const LocalStrategy = require("passport-local").Strategy;
+const passport = require("passport");
+const bcrypt = require("bcryptjs");
+
+const sequelize = new Sequelize(sequelizeConfig.development);
+
+const User = require("./models/Users")(sequelize);
+
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: "mail",
+      passwordField: "password",
+      session: false,
+    },
+    async (mail, password, cb) => {
+      try {
+        const user = await User.findOne({ where: { mail: mail } });
+
+        if (!user) {
+          console.log("Adresse e-mail incorrecte.");
+          return cb(null, false, { message: "Adresse e-mail incorrecte." });
+        }
+
+        // Comparer le mot de passe
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+          console.log("Mot de passe incorrect.");
+          return cb(null, false, { message: "Mot de passe incorrect." });
+        }
+
+        console.log("Connexion réussie.");
+        return cb(null, user);
+      } catch (err) {
+        console.error("Erreur dans le bloc catch :", err);
+        return cb(err);
+      }
+    }
+  )
+);
 
 const app = express();
 app.use(express.json());
@@ -20,8 +61,6 @@ app.use(
     credentials: true,
   })
 );
-
-const sequelize = new Sequelize(sequelizeConfig.development);
 
 async function startServer() {
   try {
