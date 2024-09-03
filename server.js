@@ -5,10 +5,21 @@ const userRoutes = require("./routes/userRoutes");
 const rpgRoutes = require("./routes/rpgRoutes");
 const rpgTableRoutes = require("./routes/rpgTableRoutes");
 const genreRoutes = require("./routes/genreRoutes");
+const authRoutes = require("./routes/authRoutes");
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
 const port = process.env.PORT;
+const origin = process.env.URL_ORIGIN;
+
+app.use(
+  cors({
+    origin: origin,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 const sequelize = new Sequelize(sequelizeConfig.development);
 
@@ -31,6 +42,7 @@ app.use("/users", userRoutes);
 app.use("/rpgs", rpgRoutes);
 app.use("/rpgTables", rpgTableRoutes);
 app.use("/genres", genreRoutes);
+app.use("/auth", authRoutes);
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);

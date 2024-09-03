@@ -13,6 +13,8 @@ const sequelize = new Sequelize(
 
 const Users = require("./Users")(sequelize);
 const Rpg = require("./Rpgs")(sequelize);
+const Genres = require("./Genres")(sequelize);
+const RpgTables = require("./RpgTables")(sequelize);
 
 sequelize
   .authenticate()
@@ -27,4 +29,6 @@ module.exports = {
   sequelize,
   Users,
   Rpg,
+  Genres,
+  RpgTables,
 };
