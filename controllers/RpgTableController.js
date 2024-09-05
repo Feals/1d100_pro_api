@@ -2,8 +2,10 @@ const { sequelize } = require("../models");
 const RpgTable = require("../models/RpgTables")(sequelize);
 const genericController = require("./genericController");
 
-exports.createRpgTable = genericController.create(RpgTable);
-exports.getAllRpgTables = genericController.getAll(RpgTable);
-exports.getRpgTableById = genericController.getById(RpgTable);
-exports.updateRpgTable = genericController.update(RpgTable);
-exports.deleteRpgTable = genericController.delete(RpgTable);
+const RpgTableController = new genericController(RpgTable);
+
+exports.createRpgTable = RpgTableController.create;
+exports.getAllRpgTables = RpgTableController.getAll;
+exports.getRpgTableById = RpgTableController.getById;
+exports.updateRpgTable = RpgTableController.update;
+exports.deleteRpgTable = RpgTableController.delete;

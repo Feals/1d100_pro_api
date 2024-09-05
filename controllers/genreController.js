@@ -2,8 +2,10 @@ const { sequelize } = require("../models");
 const Genre = require("../models/Genres")(sequelize);
 const genericController = require("./genericController");
 
-exports.createGenre = genericController.create(Genre);
-exports.getAllGenres = genericController.getAll(Genre);
-exports.getGenreById = genericController.getById(Genre);
-exports.updateGenre = genericController.update(Genre);
-exports.deleteGenre = genericController.delete(Genre);
+const genreController = new genericController(Genre);
+
+exports.createGenre = genreController.create;
+exports.getAllGenres = genreController.getAll;
+exports.getGenreById = genreController.getById;
+exports.updateGenre = genreController.update;
+exports.deleteGenre = genreController.delete;
