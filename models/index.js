@@ -1,6 +1,5 @@
-const { Sequelize } = require("sequelize");
+const Sequelize = require("sequelize");
 require("dotenv").config();
-
 const sequelize = new Sequelize(
   process.env.DATABASE,
   process.env.USERNAME,
@@ -11,24 +10,17 @@ const sequelize = new Sequelize(
   }
 );
 
-const Users = require("./Users")(sequelize);
 const Rpg = require("./Rpgs")(sequelize);
 const Genres = require("./Genres")(sequelize);
 const RpgTables = require("./RpgTables")(sequelize);
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
+const Users = require("./Users")(sequelize);
+const RpgGenres = require("./rpgGenres")(sequelize);
 
 module.exports = {
   sequelize,
-  Users,
   Rpg,
   Genres,
   RpgTables,
+  Users,
+  RpgGenres,
 };

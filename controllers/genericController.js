@@ -1,11 +1,11 @@
 class GenericController {
-  constructor(Model) {
-    this.Model = Model;
+  constructor(model) {
+    this.model = model;
   }
 
   create = async (req, res) => {
     try {
-      const entity = await this.Model.create(req.body);
+      const entity = await this.model.create(req.body);
       res.status(201).json(entity);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -14,7 +14,7 @@ class GenericController {
 
   getAll = async (req, res) => {
     try {
-      const entities = await this.Model.findAll();
+      const entities = await this.model.findAll();
       res.status(200).json(entities);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -23,7 +23,7 @@ class GenericController {
 
   getById = async (req, res) => {
     try {
-      const entity = await this.Model.findByPk(req.params.id);
+      const entity = await this.model.findByPk(req.params.id);
       if (entity) {
         res.status(200).json(entity);
       } else {
@@ -36,7 +36,7 @@ class GenericController {
 
   update = async (req, res) => {
     try {
-      const entity = await this.Model.findByPk(req.params.id);
+      const entity = await this.model.findByPk(req.params.id);
       if (entity) {
         await entity.update(req.body);
         res.status(200).json(entity);
@@ -50,7 +50,7 @@ class GenericController {
 
   delete = async (req, res) => {
     try {
-      const entity = await this.Model.findByPk(req.params.id);
+      const entity = await this.model.findByPk(req.params.id);
       if (entity) {
         await entity.destroy();
         res.status(204).send();

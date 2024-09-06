@@ -23,10 +23,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      rpg_genre: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
     },
     {
       timestamps: true,
