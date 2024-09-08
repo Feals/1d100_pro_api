@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRoutes");
 const configurePassport = require("./config/passportConfig");
 const errorHandler = require("./middlewares/errorHandler");
 const User = require("./models/Users")(sequelize);
+const path = require("path");
 
 require("./models/init-scope");
 
@@ -40,6 +41,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({ flash: "Server Error" });
 });
+
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 async function startServer() {
   try {
