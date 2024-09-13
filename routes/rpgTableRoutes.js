@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const rpgTableController = require("../controllers/rpgTableController");
-
-router.post("/", rpgTableController.createRpgTable);
-router.get("/", rpgTableController.getAllRpgTables);
-router.get("/:id", rpgTableController.getRpgTableById);
-router.put("/:id", rpgTableController.updateRpgTable);
-router.delete("/:id", rpgTableController.deleteRpgTable);
+const {
+  createRpgTable,
+  getAllRpgTables,
+  getRpgTableById,
+  updateRpgTable,
+  deleteRpgTable,
+} = require("../controllers/rpgTableController");
+router.post("/add-table", createRpgTable);
+router.get("/", getAllRpgTables);
+router.get("/:id", getRpgTableById);
+router.put("/:id", updateRpgTable);
+router.delete("/:id", deleteRpgTable);
 
 module.exports = router;

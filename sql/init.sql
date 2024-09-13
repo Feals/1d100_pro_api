@@ -45,12 +45,13 @@ CREATE TABLE IF NOT EXISTS rpg_tables (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
-    nb_player INT NOT NULL,
+    nb_players INT NOT NULL,
     registered JSON DEFAULT [],
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL,
     rpg_id INTEGER NOT NULL,
     author INTEGER NOT NULL,
+    session_date DATE NOT NULL,
     FOREIGN KEY (rpg_id) REFERENCES rpg(id) ON DELETE CASCADE,
     FOREIGN KEY (author) REFERENCES users(id) ON DELETE CASCADE
 );

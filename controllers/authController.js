@@ -13,6 +13,7 @@ class AuthController {
         user,
       });
     } catch (error) {
+      console.error("Error in signup:", error);
       return res.status(500).json({ message: error.message });
     }
   };

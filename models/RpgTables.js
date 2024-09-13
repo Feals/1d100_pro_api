@@ -19,13 +19,13 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      nb_player: {
+      nb_players: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
       registered: {
         type: DataTypes.JSON,
-        default: [],
+        defaultValue: [],
       },
       rpg_id: {
         type: DataTypes.INTEGER,
@@ -33,6 +33,10 @@ module.exports = (sequelize) => {
       },
       author: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      session_date: {
+        type: DataTypes.DATE,
         allowNull: false,
       },
     },

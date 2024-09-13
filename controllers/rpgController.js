@@ -1,4 +1,4 @@
-const { Rpg, Genres } = require("../models");
+const { Rpg } = require("../models");
 const GenericController = require("./genericController");
 const { getRpgsWithGenres, getRpgWithGenres } = require("../models/scope");
 
@@ -9,7 +9,6 @@ class RpgController extends GenericController {
 
   create = async (req, res) => {
     try {
-      console.log("req.body", req.body);
       const { name, description, genreIds } = req.body;
 
       let parsedGenreIds = [];
@@ -67,8 +66,6 @@ class RpgController extends GenericController {
   };
 
   updateRpg = async (req, res) => {
-    console.log("req.body", req.body);
-    console.log("req.params", req.params);
     try {
       const { id } = req.params;
       const { name, description, genreIds } = req.body;
