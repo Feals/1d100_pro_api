@@ -1,5 +1,28 @@
-const { Rpg, Genres, RpgTables, Users } = require("./index");
+const { Rpg, Genres, RpgTables, Users, UserRegistrations } = require("./index");
 const { Op } = require("sequelize");
+
+const getUserWithRegistrations = async (userId) => {
+  try {
+    const registrations = await UserRegistrations.findAll({
+      where: { user_id: userId },
+      attributes: ["rpg_table_id", "registration_date"],
+    });
+    if (!registrations || registrations.length === 0) {
+      return { registrationDates: [], tableIds: [] };
+    }
+    const registrationDates = registrations.map(
+      (registration) => registration.registration_date
+    );
+    const tableIds = registrations.map(
+      (registration) => registration.rpg_table_id
+    );
+
+    return { registrationDates, tableIds };
+  } catch (error) {
+    console.error("Error fetching user registrations:", error);
+    throw error;
+  }
+};
 
 const getRpgsWithGenres = async () => {
   try {
@@ -7,12 +30,10 @@ const getRpgsWithGenres = async () => {
       include: [
         {
           model: Genres,
-          as: "Genres",
           through: { attributes: [] },
         },
       ],
     });
-
     return rpgs;
   } catch (error) {
     console.error(
@@ -32,12 +53,10 @@ const getRpgWithGenres = async (id) => {
       include: [
         {
           model: Genres,
-          as: "Genres",
           through: { attributes: [] },
         },
       ],
     });
-
     return rpg;
   } catch (error) {
     console.error(
@@ -69,24 +88,32 @@ const getRpgTablesWithDetails = async () => {
       ],
     });
 
-    for (const table of tables) {
-      if (table.registered && table.registered.length > 0) {
-        const registeredUsers = await Users.findAll({
-          where: {
-            id: {
-              [Op.in]: table.registered,
-            },
-          },
-          attributes: ["firstname", "lastname"],
+    const tablesWithUsers = await Promise.all(
+      tables.map(async (table) => {
+        const registrations = await UserRegistrations.findAll({
+          where: { rpg_table_id: table.id },
+          attributes: ["user_id"],
         });
+        console.log("registrations", registrations);
+        const userIds = registrations.map(
+          (registration) => registration.user_id
+        );
+        const registeredUsers = await Users.findAll({
+          where: { id: { [Op.in]: userIds } },
+          attributes: ["id", "firstname", "lastname"],
+        });
+        return {
+          ...table.toJSON(),
+          registeredUsers: registeredUsers.map((user) => ({
+            id: user.id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+          })),
+        };
+      })
+    );
 
-        table.dataValues.registeredUsers = registeredUsers;
-      } else {
-        table.dataValues.registeredUsers = [];
-      }
-    }
-
-    return tables;
+    return tablesWithUsers;
   } catch (error) {
     console.error(
       "Erreur lors de la récupération des tables de JDR avec les détails du JDR:",
@@ -116,7 +143,6 @@ const getRpgTableWithDetails = async (id) => {
         },
       ],
     });
-
     return table;
   } catch (error) {
     console.error(
@@ -132,4 +158,5 @@ module.exports = {
   getRpgWithGenres,
   getRpgTablesWithDetails,
   getRpgTableWithDetails,
+  getUserWithRegistrations,
 };

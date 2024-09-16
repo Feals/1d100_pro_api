@@ -7,6 +7,7 @@ const {
   updateRpgTable,
   deleteRpgTable,
 } = require("../controllers/rpgTableController");
+
 router.post("/add-table", createRpgTable);
 router.get("/", getAllRpgTables);
 router.get("/:id", getRpgTableById);

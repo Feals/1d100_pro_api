@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS users (
     lastname TEXT NOT NULL,
     mail VARCHAR(100),
     password VARCHAR(100) NOT NULL,
-    registered TINYINT(1) DEFAULT 0,
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL
 );
@@ -46,7 +45,6 @@ CREATE TABLE IF NOT EXISTS rpg_tables (
     name VARCHAR(50) NOT NULL,
     description TEXT NOT NULL,
     nb_players INT NOT NULL,
-    registered JSON DEFAULT [],
     createdAt DATETIME NOT NULL,
     updatedAt DATETIME NOT NULL,
     rpg_id INTEGER NOT NULL,
@@ -54,4 +52,13 @@ CREATE TABLE IF NOT EXISTS rpg_tables (
     session_date DATE NOT NULL,
     FOREIGN KEY (rpg_id) REFERENCES rpg(id) ON DELETE CASCADE,
     FOREIGN KEY (author) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user_registrations (
+    user_id INTEGER NOT NULL,
+    rpg_table_id INTEGER NOT NULL,
+    registration_date DATE NOT NULL,
+    PRIMARY KEY (user_id, rpg_table_id, registration_date),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (rpg_table_id) REFERENCES rpg_tables(id) ON DELETE CASCADE
 );

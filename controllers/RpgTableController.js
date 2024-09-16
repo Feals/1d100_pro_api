@@ -47,7 +47,6 @@ class RpgTableController extends GenericController {
   getAllRpgTables = async (req, res) => {
     try {
       const rpgTables = await getRpgTablesWithDetails();
-      console.log("rpgTables", rpgTables);
       return res.status(200).json(rpgTables);
     } catch (error) {
       console.log("error", error);
@@ -60,7 +59,6 @@ class RpgTableController extends GenericController {
       const { id } = req.params;
 
       const rpgTable = await getRpgTableWithDetails(id);
-      console.log("rpgTable", rpgTable);
       return res.status(200).json(rpgTable);
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -73,11 +71,6 @@ class RpgTableController extends GenericController {
       const { id } = req.params;
       const { name, description, nbPlayers, rpgId, sessionDate } =
         req.body.values;
-      console.log("name", name);
-      console.log("description", description);
-      console.log("nbPlayers", nbPlayers);
-      console.log("rpgId", rpgId);
-      console.log("sessionDate", sessionDate);
       if (!name || !description || !nbPlayers || !rpgId || !sessionDate) {
         return res.status(400).json({ message: "Missing required fields" });
       }
@@ -104,31 +97,6 @@ class RpgTableController extends GenericController {
       console.log("error", error);
       console.error("Erreur lors de la mise à jour de la table de Jdr:", error);
       return res.status(500).json({ message: error.message });
-    }
-  };
-
-  addUserToTable = async (rpgTableId, userId) => {
-    try {
-      const rpgTable = await RpgTables.findByPk(rpgTableId);
-
-      if (!rpgTable) {
-        throw new Error("Table de JDR non trouvée");
-      }
-      if (rpgTable.registered.includes(userId)) {
-        throw new Error("L'utilisateur est déjà inscrit à cette table");
-      }
-
-      const updatedRegistered = [...rpgTable.registered, userId];
-
-      await rpgTable.update({ registered: updatedRegistered });
-
-      return rpgTable;
-    } catch (error) {
-      console.error(
-        "Erreur lors de l'ajout de l'utilisateur à la table:",
-        error
-      );
-      throw error;
     }
   };
 
@@ -159,5 +127,4 @@ module.exports = {
   getRpgTableById: rpgTableController.getRpgTableById,
   updateRpgTable: rpgTableController.updateRpgTable,
   deleteRpgTable: rpgTableController.deleteRpgTable,
-  addUserToTable: rpgTableController.addUserToTable,
 };

@@ -6,6 +6,7 @@ const rpgRoutes = require("./routes/rpgRoutes");
 const rpgTableRoutes = require("./routes/rpgTableRoutes");
 const genreRoutes = require("./routes/genreRoutes");
 const authRoutes = require("./routes/authRoutes");
+const userRegistrationRoutes = require("./routes/userRegistrationRoutes");
 const configurePassport = require("./config/passportConfig");
 const errorHandler = require("./middlewares/errorHandler");
 const User = require("./models/Users")(sequelize);
@@ -36,6 +37,7 @@ app.use("/rpgs", rpgRoutes);
 app.use("/rpgTables", rpgTableRoutes);
 app.use("/genres", genreRoutes);
 app.use("/auth", authRoutes);
+app.use("/userRegistrations", userRegistrationRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

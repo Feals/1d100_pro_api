@@ -15,7 +15,7 @@ const Genres = require("./Genres")(sequelize);
 const RpgTables = require("./RpgTables")(sequelize);
 const Users = require("./Users")(sequelize);
 const RpgGenres = require("./rpgGenres")(sequelize);
-
+const UserRegistrations = require("./UserRegistrations")(sequelize);
 module.exports = {
   sequelize,
   Rpg,
@@ -23,4 +23,5 @@ module.exports = {
   RpgTables,
   Users,
   RpgGenres,
+  UserRegistrations,
 };

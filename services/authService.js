@@ -19,6 +19,7 @@ class AuthService {
       firstname: user.firstname,
       lastname: user.lastname,
       mail: user.mail,
+      registered: user.registered,
     };
   }
 
