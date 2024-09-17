@@ -1,6 +1,9 @@
 const { UserRegistrations } = require("../models");
 const GenericController = require("./genericController");
-const { getUserWithRegistrations } = require("../models/scope");
+const {
+  getUserWithRegistrations,
+  checkTableCapacity,
+} = require("../models/scope");
 
 class UserRegistrationController extends GenericController {
   constructor(model) {
@@ -36,7 +39,15 @@ class UserRegistrationController extends GenericController {
     }
 
     try {
-      const userRegistration = await this.model.create({
+      const isAvailable = await checkTableCapacity(tableId);
+
+      if (!isAvailable) {
+        return res
+          .status(400)
+          .json({ message: "La table est complète, inscription impossible." });
+      }
+
+      const userRegistration = await UserRegistrations.create({
         user_id: userId,
         rpg_table_id: tableId,
         registration_date: sessionDate,
@@ -51,6 +62,7 @@ class UserRegistrationController extends GenericController {
       return res.status(500).json({ message: error.message });
     }
   };
+
   unsubscribeUserToTable = async (req, res) => {
     console.log("req.body", req.body);
     const { tableId, userId } = req.body;

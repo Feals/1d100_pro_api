@@ -39,21 +39,6 @@ module.exports = (sequelize) => {
     {
       tableName: "rpg_tables",
       timestamps: true,
-      scopes: {
-        withAvailableCapacity: (rpgTableId) => ({
-          where: {
-            id: rpgTableId,
-            [sequelize.Op.and]: [
-              sequelize.where(
-                sequelize.fn("array_length", sequelize.col("registered"), 1),
-                {
-                  [sequelize.Op.lt]: sequelize.col("nb_players"),
-                }
-              ),
-            ],
-          },
-        }),
-      },
     }
   );
 

@@ -1,5 +1,5 @@
 const { Rpg, Genres, RpgTables, Users, UserRegistrations } = require("./index");
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 
 const getUserWithRegistrations = async (userId) => {
   try {
@@ -94,7 +94,6 @@ const getRpgTablesWithDetails = async () => {
           where: { rpg_table_id: table.id },
           attributes: ["user_id"],
         });
-        console.log("registrations", registrations);
         const userIds = registrations.map(
           (registration) => registration.user_id
         );
@@ -153,10 +152,35 @@ const getRpgTableWithDetails = async (id) => {
   }
 };
 
+const checkTableCapacity = async (tableId) => {
+  try {
+    const registeredCount = await UserRegistrations.count({
+      where: { rpg_table_id: tableId },
+    });
+
+    const table = await RpgTables.findByPk(tableId, {
+      attributes: ["nb_players"],
+    });
+
+    if (!table) {
+      throw new Error("Table de JDR non trouvée.");
+    }
+
+    return registeredCount < table.nb_players;
+  } catch (error) {
+    console.error(
+      "Erreur lors de la vérification de la capacité de la table:",
+      error
+    );
+    throw error;
+  }
+};
+
 module.exports = {
   getRpgsWithGenres,
   getRpgWithGenres,
   getRpgTablesWithDetails,
   getRpgTableWithDetails,
   getUserWithRegistrations,
+  checkTableCapacity,
 };
