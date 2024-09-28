@@ -8,6 +8,14 @@ class AuthService {
   }
 
   async signup({ firstname, lastname, mail, password }) {
+    const existingUser = await this.UserModel.findOne({
+      where: { mail: mail },
+    });
+
+    if (existingUser) {
+      throw new Error("L'e-mail est déjà utilisé.");
+    }
+
     const hash = bcrypt.hashSync(password, 10);
     const user = await this.UserModel.create({
       firstname,

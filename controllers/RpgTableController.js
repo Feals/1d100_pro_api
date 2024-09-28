@@ -66,7 +66,6 @@ class RpgTableController extends GenericController {
   };
 
   updateRpgTable = async (req, res) => {
-    console.log("req", req.body);
     try {
       const { id } = req.params;
       const { name, description, nbPlayers, rpgId, sessionDate } =
@@ -74,9 +73,7 @@ class RpgTableController extends GenericController {
       if (!name || !description || !nbPlayers || !rpgId || !sessionDate) {
         return res.status(400).json({ message: "Missing required fields" });
       }
-      console.log("test");
       const rpgTable = await this.model.findByPk(id);
-      console.log("rpgTable", rpgTable);
       if (!rpgTable) {
         return res.status(404).json({ message: "Table de Jdr non trouvée" });
       }
@@ -94,7 +91,6 @@ class RpgTableController extends GenericController {
         rpgTable,
       });
     } catch (error) {
-      console.log("error", error);
       console.error("Erreur lors de la mise à jour de la table de Jdr:", error);
       return res.status(500).json({ message: error.message });
     }
@@ -103,6 +99,7 @@ class RpgTableController extends GenericController {
   deleteRpgTable = async (req, res) => {
     try {
       const { id } = req.params;
+      console.log("id", id);
       const rpgTable = await this.model.findByPk(id);
       if (!rpgTable) {
         return res.status(404).json({ message: "Table de Jdr non trouvée" });
