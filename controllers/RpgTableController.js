@@ -1,5 +1,6 @@
-const { RpgTables } = require("../models");
+const { RpgTables, UserRegistrations, Users } = require("../models");
 const GenericController = require("./genericController");
+const { sendEmailToUsers } = require("../mails/sendEmail");
 const {
   getRpgTablesWithDetails,
   getRpgTableWithDetails,
@@ -99,11 +100,21 @@ class RpgTableController extends GenericController {
   deleteRpgTable = async (req, res) => {
     try {
       const { id } = req.params;
-      console.log("id", id);
       const rpgTable = await this.model.findByPk(id);
       if (!rpgTable) {
         return res.status(404).json({ message: "Table de Jdr non trouvée" });
       }
+
+      const registrations = await UserRegistrations.findAll({
+        where: { rpg_table_id: id },
+      });
+      const userIds = registrations.map((registration) => registration.user_id);
+      const users = await Users.findAll({
+        where: { id: userIds },
+        attributes: ["firstname", "lastname", "mail"],
+      });
+
+      await sendEmailToUsers(users, rpgTable.name);
 
       await rpgTable.destroy();
       return res
